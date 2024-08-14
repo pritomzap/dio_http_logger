@@ -11,7 +11,7 @@ class DioNetworkInterceptor extends dio.Interceptor {
   @override
   Future<void> onRequest(dio.RequestOptions options, dio.RequestInterceptorHandler handler) async{
     super.onRequest(options, handler);
-    var requestTime = getCurrentDateTime();
+    var requestTime = DateTime.now().millisecondsSinceEpoch.toString();
     NetworkModel networkModel = NetworkModel();
     networkModel.requestType = options.method.toUpperCase();
     networkModel.path = "${options.baseUrl}${options.path}";
@@ -23,6 +23,7 @@ class DioNetworkInterceptor extends dio.Interceptor {
     networkModel.requestOptions = options;
     callBackOnRequest.call(networkModel);
     options.extra['requestTimestamp'] = requestTime;
+    return Future.value(options);
   }
 
   @override

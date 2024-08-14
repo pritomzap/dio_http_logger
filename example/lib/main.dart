@@ -44,29 +44,39 @@ class _MyAppState extends State<MyApp> {
         child: InkWell(
             onTap: ()async{
               try{
-                await client.get('https://flutter.dev/');
-                await client.get('https://github.com/flutter/flutter/issues/111656');
-                await client.get('https://facebook.com/');
-                await client.get('https://google.com/');
-                client.get('https://newroz.com/');
-                client.get('https://asooasd.com/');
+                client.get('https://jsonplaceholder.typicode.com/todos/1');
                 client.post(
-                  'https://run.mocky.io/v3/c80877c3-8d4a-477b-9c45-a1441c34a6b6',
-                  data: <String, dynamic>{
-                    'products': 5,
-                    'foo': 'bar',
-                    'hello': [
-                      'world',
-                      'dunya',
-                    ]
+                  'https://jsonplaceholder.typicode.com/posts',
+                  data: {
+                    'title': 'New Post',
+                    'body': 'This is the body of the new post.',
+                    'userId': 1,
                   },
                 );
+                client.put(
+                  'https://jsonplaceholder.typicode.com/posts/1',
+                  data: {
+                    'id': 1,
+                    'title': 'Updated Post',
+                    'body': 'This is the updated body of the post.',
+                    'userId': 1,
+                  },
+                );
+                client.post(
+                  'https://jsonplaceholder.typicode.com/posts',
+                  data: {
+                    'title': 'New Post',
+                    'body': 'This is the body of the new post.',
+                    'userId': 1,
+                  },
+                );
+
                 //DioNetworkLogger.instance.startNetworkLoggerScreen();
               }catch(e){
                 //DioNetworkLogger.instance.startNetworkLoggerScreen();
               }
             },
-            child: Text('Tap to initiate screen')
+            child: const Text('Tap to initiate screen')
         ),
       ),
     );
