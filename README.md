@@ -1,6 +1,6 @@
 # dio_network_logger
 
-[![Pub Version](https://img.shields.io/pub/v/dio_network_logger.svg)](https://pub.dev/packages/dio_network_logger)
+[![Pub Version](https://img.shields.io/pub/v/dio_http_logger.svg)](https://pub.dev/packages/dio_network_logger)
 
 A powerful network interceptor for Dio, providing comprehensive logging of requests and responses.
 
