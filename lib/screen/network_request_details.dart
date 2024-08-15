@@ -55,9 +55,9 @@ class OverviewWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final responseColor = (entry.code == null) ? Colors.black38 : entry.code == 200 ? Colors.green:(entry.code! >= 400 && entry.code! <=499)?Colors.amber: Colors.red;
+    final responseColor = (entry.code == null) ? Colors.black38 : (entry.code! >= 200 && entry.code! <= 300)? Colors.green:(entry.code! >= 400 && entry.code! <=499)?Colors.amber: Colors.red;
     return Container(
-        margin: EdgeInsets.symmetric(horizontal: 20),
+        margin: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -66,8 +66,8 @@ class OverviewWidget extends StatelessWidget {
             Text('Request Type: ${entry.requestType}',style: const TextStyle(fontSize: 14,fontWeight: FontWeight.bold),),
             const SizedBox(height: 10,),
             const Text('REQUEST',style: TextStyle(fontSize: 14,fontWeight: FontWeight.bold,color: Colors.blueGrey),),
-            Text('Request Time: ${entry.requestTime}'),
-            Text('RequestSize: ${entry.requestSize} B'),
+            Text('Request Time: ${milisToDateTime(int.parse(entry.requestTime??'0'))}'),
+            Text('RequestSize: ${entry.requestSize??'0'} B'),
             Text('Content type: ${entry.requestOptions?.contentType??''}'),
             Text('Response type: ${entry.requestOptions?.responseType.name??'--'}'),
             Text('Send timeout: ${entry.requestOptions?.sendTimeout??'--'}'),
@@ -78,9 +78,9 @@ class OverviewWidget extends StatelessWidget {
             const SizedBox(height: 10,),
             const Text('RESPONSE',style: TextStyle(fontSize: 14,fontWeight: FontWeight.bold,color: Colors.blueGrey),),
             Text('Status code: ${entry.code == -87?'Error':entry.code}',style: TextStyle(color: responseColor,fontWeight: FontWeight.bold)),
-            Text('Response Size: ${entry.responseSize} B'),
-            Text('Response Time: ${entry.requestTime}'),
-            Text('Delay(inMilliseconds): ${delayInMs(entry.requestTime??'',entry.responseTime??'')}'),
+            Text('Response Size: ${entry.responseSize??'0'} B'),
+            Text('Response Time: ${milisToDateTime(int.parse(entry.responseTime??'0'))}'),
+            Text('Delay(inMilliseconds): ${delayInMs(entry.responseTime??'',entry.requestTime??'')}'),
             Text('Status message: ${entry.response?.statusMessage??''}'),
             Text('Real uri: ${entry.response?.realUri.toString()??''}'),
           ],
@@ -106,16 +106,17 @@ class RequestWidget extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Headers:',style: TextStyle(fontWeight: FontWeight.bold),),
+                const Text('Headers:',style: TextStyle(fontWeight: FontWeight.bold),),
                 InkWell(
                     onTap: ()async{
                       Clipboard.setData(ClipboardData(text: '${entry.requestHeaders??''}'));
                     },
-                    child: Icon(Icons.copy,size: 14,)
+                    child: const Icon(Icons.copy,size: 14,)
                 )
               ],
             ),
             Text(encoder.convert(entry.requestHeaders)),
+            const SizedBox(height: 10,),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -124,13 +125,15 @@ class RequestWidget extends StatelessWidget {
                     onTap: ()async{
                       Clipboard.setData(ClipboardData(text: '${entry.requestBody??''}'));
                     },
-                    child: Icon(Icons.copy,size: 14,)
+                    child: const Icon(Icons.copy,size: 14,)
                 )
               ],
             ),
             Text(encoder.convert(entry.requestBody)??'- -'),
+            const SizedBox(height: 10,),
             const Text('Extra:',style: TextStyle(fontWeight: FontWeight.bold),),
             Text(encoder.convert(entry.requestOptions?.extra)??'- -'),
+            const SizedBox(height: 10,),
           ],
         ),
       ),
@@ -160,24 +163,26 @@ class ResponseWidget extends StatelessWidget {
                   onTap: ()async{
                     Clipboard.setData(ClipboardData(text: '${entry.responseHeaders??''}'));
                   },
-                  child: Icon(Icons.copy,size: 14,)
+                  child: const Icon(Icons.copy,size: 14,)
                 )
               ],
             ),
             Text(encoder.convert(entry.responseHeaders)),
+            const SizedBox(height: 10,),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 const Text('Response body:',style: TextStyle(fontWeight: FontWeight.bold),),
                 InkWell(
                     onTap: ()async{
-                      Clipboard.setData(ClipboardData(text: '${entry.responseBody??''}'));
+                      Clipboard.setData(ClipboardData(text: entry.responseBody??''));
                     },
-                    child: Icon(Icons.copy,size: 14,)
+                    child: const Icon(Icons.copy,size: 14,)
                 )
               ],
             ),
             Text(encoder.convert(entry.responseBody)??'- -'),
+            const SizedBox(height: 10,),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -186,11 +191,58 @@ class ResponseWidget extends StatelessWidget {
                     onTap: ()async{
                       Clipboard.setData(ClipboardData(text: '${entry.response?.extra??''}'));
                     },
-                    child: Icon(Icons.copy,size: 14,)
+                    child: const Icon(Icons.copy,size: 14,)
                 )
               ],
             ),
             Text(encoder.convert(entry.response?.extra)??'- -'),
+            const SizedBox(height: 10,),
+            entry.exception != null?Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text('Dio exception type:',style: TextStyle(fontWeight: FontWeight.bold,color: Colors.deepOrange),),
+                    InkWell(
+                        onTap: ()async{
+                          Clipboard.setData(ClipboardData(text: entry.exception?.type.name??''));
+                        },
+                        child: const Icon(Icons.copy,size: 14,)
+                    )
+                  ],
+                ),
+                Text(entry.exception?.type.name??'',style: const TextStyle(color: Colors.deepOrange)),
+                const SizedBox(height: 10,),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text('Error-message:',style: TextStyle(fontWeight: FontWeight.bold,color: Colors.deepOrange),),
+                    InkWell(
+                        onTap: ()async{
+                          Clipboard.setData(ClipboardData(text: entry.exception?.message??''));
+                        },
+                        child: const Icon(Icons.copy,size: 14,)
+                    )
+                  ],
+                ),
+                Text(entry.exception?.message??'',style: const TextStyle(color: Colors.deepOrange)),
+                const SizedBox(height: 10,),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text('Stack-trace:',style: TextStyle(fontWeight: FontWeight.bold,color: Colors.deepOrange),),
+                    InkWell(
+                        onTap: ()async{
+                          Clipboard.setData(ClipboardData(text: '${entry.exception?.stackTrace??''}'));
+                        },
+                        child: const Icon(Icons.copy,size: 14,)
+                    )
+                  ],
+                ),
+                Text(entry.exception?.stackTrace.toString()??'',style: const TextStyle(color: Colors.deepOrange)),
+                const SizedBox(height: 10,),
+              ],
+            ):Container(),
           ],
         ),
       ),

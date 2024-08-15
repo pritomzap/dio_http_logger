@@ -37,24 +37,4 @@ class DioNetworkInterceptor extends dio.Interceptor {
     super.onError(err, handler);
     callBackOnError.call(err);
   }
-
-  String? getCurrentDateTime(){
-    DateTime now = DateTime.now();
-
-    // 2. Extract individual components
-    int year = now.year;
-    int month = now.month;
-    int day = now.day;
-    int hour = now.hour;
-    int minute = now.minute;
-    int second = now.second;
-
-    // 3. Format manually (basic example)
-    String formattedDateTime =
-        '$year-${month.toString().padLeft(2, '0')}-${day.toString().padLeft(2, '0')} '
-        '${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')}:${second.toString().padLeft(2,
-        '0')}';
-    return formattedDateTime;
-  }
-
 }

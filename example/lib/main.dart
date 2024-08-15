@@ -8,7 +8,7 @@ void main() async{
       MaterialApp(
         home: Stack(
           children: [
-            MyApp(),
+            const MyApp(),
             DioNetworkLogger.instance.overLayButtonWidget
           ],
         ),
@@ -38,45 +38,44 @@ class _MyAppState extends State<MyApp> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Dio app example'),
+        title: const Text('Dio http logger app example'),
       ),
       body: Center(
-        child: InkWell(
-            onTap: ()async{
-              try{
-                client.get('https://jsonplaceholder.typicode.com/todos/1');
-                client.post(
-                  'https://jsonplaceholder.typicode.com/posts',
-                  data: {
-                    'title': 'New Post',
-                    'body': 'This is the body of the new post.',
-                    'userId': 1,
-                  },
-                );
-                client.put(
-                  'https://jsonplaceholder.typicode.com/posts/1',
-                  data: {
-                    'id': 1,
-                    'title': 'Updated Post',
-                    'body': 'This is the updated body of the post.',
-                    'userId': 1,
-                  },
-                );
-                client.post(
-                  'https://jsonplaceholder.typicode.com/posts',
-                  data: {
-                    'title': 'New Post',
-                    'body': 'This is the body of the new post.',
-                    'userId': 1,
-                  },
-                );
-
-                //DioNetworkLogger.instance.startNetworkLoggerScreen();
-              }catch(e){
-                //DioNetworkLogger.instance.startNetworkLoggerScreen();
-              }
-            },
-            child: const Text('Tap to initiate screen')
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            TextButton(
+                onPressed: (){
+                  client.get('https://jsonplaceholder.typicode.com/todos/1');
+                }, child: const Text('SEND GET REQUEST')
+            ),
+            TextButton(
+                onPressed: (){
+                  client.post(
+                    'https://jsonplaceholder.typicode.com/posts',
+                    data: {
+                      'title': 'New Post',
+                      'body': 'This is the body of the new post.',
+                      'userId': 1,
+                    },
+                  );
+                }, child: const Text('SEND POST REQUEST')
+            ),
+            TextButton(
+                onPressed: (){
+                  client.put(
+                    'https://jsonplaceholder.typicode.com/posts/1',
+                    data: {
+                      'id': 1,
+                      'title': 'Updated Post',
+                      'body': 'This is the updated body of the post.',
+                      'userId': 1,
+                    },
+                  );
+                }, child: const Text('SEND PUT REQUEST')
+            ),
+          ],
         ),
       ),
     );

@@ -50,6 +50,7 @@ class DioNetworkLogger {
       networkRequest.responseHeaders = response.headers.map;
       networkRequest.responseBody = response.data.toString();
       networkRequest.responseSize = measureNetworkData(response.data.toString());
+      networkRequest.responseTime = DateTime.now().millisecondsSinceEpoch.toString();
       networkRequest.response = response;
       _networkModels.insert(0, networkRequest);
       listenerEventChange?.call();

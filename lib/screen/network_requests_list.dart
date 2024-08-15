@@ -3,6 +3,7 @@ import 'package:dio_http_logger/screen/network_request_details.dart';
 import 'package:flutter/material.dart';
 
 import '../dio_network_logger.dart';
+import '../utils/utils.dart';
 
 class NetworkRequestsList extends StatefulWidget {
   const NetworkRequestsList({super.key});
@@ -69,7 +70,7 @@ class _NetworkRequestsListState extends State<NetworkRequestsList> {
               child: const Icon(Icons.delete,color: Colors.white,),
             ),
           ),
-          Positioned(
+          /*Positioned(
             bottom: 20,
             right: 20,
             child: FloatingActionButton(
@@ -79,7 +80,7 @@ class _NetworkRequestsListState extends State<NetworkRequestsList> {
               },
               child: Icon(Icons.filter_list_alt,color: Colors.white,),
             ),
-          ),
+          ),*/
         ],
       ),
     );
@@ -95,7 +96,7 @@ class NetworkLogEntryWidget extends StatelessWidget {
 @override
   Widget build(BuildContext context) {
   var typeColor = entry.code == null?Colors.black26:entry.requestType == 'GET'?Colors.green:entry.requestType == 'POST'?Colors.teal:entry.requestType == 'PUT'?Colors.indigo:Colors.red;
-  final responseColor = (entry.code == null) ? Colors.black38 : entry.code == 200 ? Colors.green:(entry.code! >= 400 && entry.code! <=499)?Colors.amber: Colors.red;
+  final responseColor = (entry.code == null) ? Colors.black38 : (entry.code! >= 200 && entry.code! <= 300) ? Colors.green:(entry.code! >= 400 && entry.code! <=499)?Colors.amber: Colors.red;
   final uri = Uri.parse(entry.path??'');
 
   return ListTile(
@@ -121,7 +122,7 @@ class NetworkLogEntryWidget extends StatelessWidget {
         Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            uri.scheme == 'https'?Icon(Icons.lock,size: 12,):Container(),
+            uri.scheme == 'https'?const Icon(Icons.lock,size: 12,):Container(),
             Text(' ${uri.scheme}://${uri.host}',style: TextStyle(color: entry.code == null?Colors.black26:Colors.black,fontSize: 12,fontWeight: FontWeight.bold),),
           ],
         )
@@ -130,7 +131,7 @@ class NetworkLogEntryWidget extends StatelessWidget {
     subtitle: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text("Time: ${entry.requestTime}",style: TextStyle(color: entry.code == null?Colors.black26:Colors.black,fontSize: 10)),
+        Text("Time: ${milisToDateTime(int.parse(entry.requestTime??'0'))}",style: TextStyle(color: entry.code == null?Colors.black26:Colors.black,fontSize: 10)),
         Text("Size: ${entry.responseSize ?? '0'}B",style: TextStyle(color: entry.code == null?Colors.black26:Colors.black,fontSize: 10)),
       ],
     ),
