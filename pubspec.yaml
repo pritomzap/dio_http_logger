@@ -1,6 +1,6 @@
 name: dio_http_logger
 description: "Dio network logger library for viewing request, response and error logs for any requests"
-version: 1.0.1
+version: 1.0.2
 homepage: https://github.com/pritomzap/dio_http_logger
 
 environment:
