@@ -1,9 +1,9 @@
 import 'dart:convert';
 
-import 'package:dio_http_logger/models/network_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../models/network_model.dart';
 import '../utils/utils.dart';
 
 class NetworkRequestDetails extends StatefulWidget {

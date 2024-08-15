@@ -1,4 +1,4 @@
-import 'package:dio_http_logger/dio_network_logger.dart';
+import 'package:dio_http_logger/src/dio_network_logger.dart';
 import 'package:flutter/material.dart';
 
 class OverlayButton extends StatelessWidget {

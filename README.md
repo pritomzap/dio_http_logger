@@ -22,7 +22,7 @@ Add `dio_http_logger` to your `pubspec.yaml` file:
 
 ```yaml  
 dependencies:  
- dio: ">=4.0.0 <6.0.0"
+ dio: ">=4.0.0 <6.0.0" //use the latest version
  .....
  dio_http_logger: ^latest_version
 ```

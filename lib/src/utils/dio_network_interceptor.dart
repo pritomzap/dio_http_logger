@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart' as dio;
-import 'package:dio_http_logger/models/network_model.dart';
-import 'package:dio_http_logger/utils/utils.dart';
+import 'package:dio_http_logger/src/utils/utils.dart';
+
+import '../models/network_model.dart';
+
 
 class DioNetworkInterceptor extends dio.Interceptor {
   Function(NetworkModel) callBackOnRequest;

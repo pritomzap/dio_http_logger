@@ -1,11 +1,13 @@
 import 'package:dio/dio.dart' as dio; // Import Dio HTTP client
+import 'package:dio_http_logger/src/utils/dio_network_interceptor.dart';
+import 'package:dio_http_logger/src/utils/utils.dart';
 // Import other necessary components from the package
-import 'package:dio_http_logger/models/network_model.dart';
-import 'package:dio_http_logger/screen/network_requests_list.dart';
-import 'package:dio_http_logger/utils/dio_network_interceptor.dart';
-import 'package:dio_http_logger/utils/utils.dart';
-import 'package:dio_http_logger/widgets/overlay_button.dart';
 import 'package:flutter/material.dart';
+
+import '../dio_logger.dart';
+import 'models/network_model.dart';
+import 'screen/network_requests_list.dart';
+import 'widgets/overlay_button.dart';
 
 /*
 *

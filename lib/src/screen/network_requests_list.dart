@@ -1,9 +1,9 @@
-import 'package:dio_http_logger/models/network_model.dart';
-import 'package:dio_http_logger/screen/network_request_details.dart';
 import 'package:flutter/material.dart';
 
 import '../dio_network_logger.dart';
+import '../models/network_model.dart';
 import '../utils/utils.dart';
+import 'network_request_details.dart';
 
 class NetworkRequestsList extends StatefulWidget {
   const NetworkRequestsList({super.key});
@@ -46,7 +46,7 @@ class _NetworkRequestsListState extends State<NetworkRequestsList> {
           models.isNotEmpty?Container(
             color: Colors.white,
             child: ListView.separated(
-              padding: EdgeInsets.only(bottom: 100),
+              padding: const EdgeInsets.only(bottom: 100),
               itemCount: models.length,
               itemBuilder: (context, index) {
                 return NetworkLogEntryWidget(entry: models[index]);
