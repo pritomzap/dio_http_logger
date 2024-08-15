@@ -22,7 +22,7 @@ Add `dio_http_logger` to your `pubspec.yaml` file:
 
 ```yaml  
 dependencies:  
- dio: ">=4.0.0 <6.0.0" //use the latest version
+ dio: ">=4.0.0 <6.0.0" //use the latest version, 5.6.0 was my latest, old version user DioError instead of DioException.
  .....
  dio_http_logger: ^latest_version
 ```
@@ -32,7 +32,11 @@ dependencies:
 final client = Dio();  
 client.interceptors.add(DioNetworkLogger.instance.dioNetworkInterceptor!);
 ```
-2. Use `DioNetworkLogger.instance.overLayButtonWidget` widget to direct navigate to the library (Use it at the root view of your application, this will make the button appear in every screen).
+3. Set the context for internal navigation on application start or naigation start.
+```dart
+DioNetworkLogger.instance.context = context;
+```
+4. Use `DioNetworkLogger.instance.overLayButtonWidget` widget to direct navigate to the library (Use it at the root view of your application, this will make the button appear in every screen).
 ```dart
 runApp(  
     MaterialApp(  
@@ -45,10 +49,11 @@ runApp(
     )  
 );
 ```
-3. Or you can use `DioNetworkLogger.instance.startNetworkLoggerScreen()` to direct navigate to the library
+5. Or you can use `DioNetworkLogger.instance.startNetworkLoggerScreen()` to direct navigate to the library
 ```dart
 //Use it on any callback
-onPressed: () {  
+onPressed: () {
+  DioNetworkLogger.instance.context = context;
   DioNetworkLogger.instance.startNetworkLoggerScreen();  
 },
 ```
