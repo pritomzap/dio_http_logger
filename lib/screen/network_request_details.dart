@@ -129,7 +129,21 @@ class RequestWidget extends StatelessWidget {
                 )
               ],
             ),
-            Text(encoder.convert(entry.requestBody)??'- -'),
+            Text(encoder.convert(entry.requestBody??{})??'- -'),
+            const SizedBox(height: 10,),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text('Query params:',style: TextStyle(fontWeight: FontWeight.bold),),
+                InkWell(
+                    onTap: ()async{
+                      Clipboard.setData(ClipboardData(text: encoder.convert(entry.queryParams)??'- -'));
+                    },
+                    child: const Icon(Icons.copy,size: 14,)
+                )
+              ],
+            ),
+            Text(encoder.convert(entry.queryParams)??'- -'),
             const SizedBox(height: 10,),
             const Text('Extra:',style: TextStyle(fontWeight: FontWeight.bold),),
             Text(encoder.convert(entry.requestOptions?.extra)??'- -'),

@@ -1,7 +1,7 @@
 name: dio_http_logger
-description: "A new Flutter project."
+description: "Dio network logger library for viewing request, response and error logs for any requests"
 version: 1.0.0
-homepage:
+homepage: https://github.com/pritomzap/dio_http_logger
 
 environment:
   sdk: ^3.5.0
