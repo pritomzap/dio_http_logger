@@ -1,6 +1,6 @@
 name: dio_http_logger
 description: "Dio network logger library for viewing request, response and error logs for any requests"
-version: 1.0.2
+version: 1.0.3
 homepage: https://github.com/pritomzap/dio_http_logger
 
 environment:
@@ -12,6 +12,7 @@ dependencies:
     sdk: flutter
   plugin_platform_interface: ^2.0.2
   dio: ">=4.0.0 <6.0.0"
+  flutter_local_notifications: ^17.2.2
 
 dev_dependencies:
   flutter_test:

@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart' as dio; // Import Dio HTTP client
 import 'package:dio_http_logger/src/utils/dio_network_interceptor.dart';
+import 'package:dio_http_logger/src/utils/local_notification.dart';
 import 'package:dio_http_logger/src/utils/utils.dart';
 // Import other necessary components from the package
 import 'package:flutter/material.dart';
@@ -88,6 +89,7 @@ class DioNetworkLogger {
       networkRequest.responseSize = measureNetworkData(response.data.toString());
       networkRequest.responseTime = DateTime.now().millisecondsSinceEpoch.toString();
       networkRequest.response = response;
+      LocalNotification.instance.showSimpleNotification('Response : : ${networkRequest.requestType} (${networkRequest.code})', networkRequest.path??'', 'payload');
       _networkModels.insert(0, networkRequest);
       listenerEventChange?.call();
     }
@@ -101,6 +103,7 @@ class DioNetworkLogger {
       var networkRequest = _networkModels.removeAt(networkRequestIndex);
       networkRequest.code = -87;
       networkRequest.exception = error;
+      LocalNotification.instance.showSimpleNotification('Error : : ${networkRequest.requestType}', networkRequest.path??'', 'payload');
       _networkModels.insert(0, networkRequest);
       listenerEventChange?.call();
     }
@@ -118,5 +121,9 @@ class DioNetworkLogger {
   void deleteAllRequests(){
     _networkModels.clear();
     listenerEventChange?.call();
+  }
+
+  Future initLocalNotifications()async{
+    await LocalNotification.instance.init();
   }
 }

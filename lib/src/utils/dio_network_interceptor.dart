@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart' as dio;
+import 'package:dio_http_logger/src/utils/local_notification.dart';
 import 'package:dio_http_logger/src/utils/utils.dart';
 
 import '../models/network_model.dart';
@@ -23,6 +24,7 @@ class DioNetworkInterceptor extends dio.Interceptor {
     networkModel.requestBody = options.data;
     networkModel.requestSize = measureNetworkData(options.data);
     networkModel.requestOptions = options;
+    LocalNotification.instance.showSimpleNotification('Request : : ${networkModel.requestType}', options.path, 'payload');
     callBackOnRequest.call(networkModel);
     options.extra['requestTimestamp'] = requestTime;
     return Future.value(options);

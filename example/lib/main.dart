@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:dio_http_logger/dio_logger.dart';
 
 void main() async{
+  WidgetsFlutterBinding.ensureInitialized();;
+  await DioNetworkLogger.instance.initLocalNotifications();
   runApp(
       MaterialApp(
         home: Stack(
