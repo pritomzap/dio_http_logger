@@ -97,58 +97,81 @@ class NetworkLogEntryWidget extends StatelessWidget {
   Widget build(BuildContext context) {
   var typeColor = entry.code == null?Colors.black26:entry.requestType == 'GET'?Colors.green:entry.requestType == 'POST'?Colors.teal:entry.requestType == 'PUT'?Colors.indigo:Colors.red;
   final responseColor = (entry.code == null) ? Colors.black38 : (entry.code! >= 200 && entry.code! <= 300) ? Colors.green:(entry.code! >= 400 && entry.code! <=499)?Colors.amber: Colors.red;
-  final uri = Uri.parse(entry.path??'');
-
-  return ListTile(
-    title: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          children: [
-            Text("${entry.requestType}",style: TextStyle(color: typeColor,fontStyle: FontStyle.normal,fontWeight: FontWeight.bold),),
-            const SizedBox(width: 5,),
-            Expanded(
-              child: Text(
-                  uri.path,
-                  style: TextStyle(color: entry.code == null?Colors.black26:Colors.black,),
-                  overflow: TextOverflow.ellipsis,
-                  softWrap: false,
-                  textAlign: TextAlign.start, // Align text to the start (left)
-                  maxLines: 1,
+    final uri = Uri.parse(entry.path ?? '');
+    return ListTile(
+      title: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Text(
+                entry.requestType ?? '',
+                style: TextStyle(
+                  color: typeColor,
+                  fontStyle: FontStyle.normal,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            )
-          ],
-        ),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            uri.scheme == 'https'?const Icon(Icons.lock,size: 12,):Container(),
-            Text(' ${uri.scheme}://${uri.host}',style: TextStyle(color: entry.code == null?Colors.black26:Colors.black,fontSize: 12,fontWeight: FontWeight.bold),),
-          ],
-        )
-      ],
-    ),
-    subtitle: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text("Time: ${milisToDateTime(int.parse(entry.requestTime??'0'))}",style: TextStyle(color: entry.code == null?Colors.black26:Colors.black,fontSize: 10)),
-        Text("Size: ${entry.responseSize ?? '0'}B",style: TextStyle(color: entry.code == null?Colors.black26:Colors.black,fontSize: 10)),
-      ],
-    ),
-    trailing: Container(
-      padding: const EdgeInsets.all(8.0),
-      decoration: BoxDecoration(
-        color: responseColor,
-        borderRadius: BorderRadius.circular(4.0),
+              const Spacer(),
+              Container(
+                width: 50.0,
+                alignment: Alignment.center,
+                padding: const EdgeInsets.symmetric(
+                  vertical: 2.0,
+                ),
+                decoration: BoxDecoration(
+                  color: responseColor,
+                  borderRadius: BorderRadius.circular(4.0),
+                ),
+                child: Text(
+                  entry.code == -87
+                      ? 'Error'
+                      : entry.code == null
+                          ? 'Pending'
+                          : entry.code.toString(),
+                  style: const TextStyle(color: Colors.white),
+                ),
+              ),
+            ],
+          ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Expanded(
+                child: Text(
+                  uri.toString(),
+                  style: TextStyle(
+                      color: entry.code == null ? Colors.black26 : Colors.black,
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
-      child: Text(
-        entry.code == -87?'Error':entry.code == null?'Pending':entry.code.toString(),
-        style: const TextStyle(color: Colors.white),
+      subtitle: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            "Time: ${milisToDateTime(int.parse(entry.requestTime ?? '0'))}",
+            style: TextStyle(
+                color: entry.code == null ? Colors.black26 : Colors.black,
+                fontSize: 10),
+          ),
+          Text(
+            "Size: ${entry.responseSize ?? '0'}B",
+            style: TextStyle(
+              color: entry.code == null ? Colors.black26 : Colors.black,
+              fontSize: 10,
+            ),
+          ),
+        ],
       ),
-    ),
-    onTap: (){
-      Navigator.of(context).push(MaterialPageRoute(builder: (_) =>  NetworkRequestDetails(entry)));
-    },
-  );
+      onTap: () {
+        Navigator.of(context).push(
+            MaterialPageRoute(builder: (_) => NetworkRequestDetails(entry)));
+      },
+    );
   }
 }

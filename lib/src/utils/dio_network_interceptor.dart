@@ -17,7 +17,7 @@ class DioNetworkInterceptor extends dio.Interceptor {
     var requestTime = DateTime.now().millisecondsSinceEpoch.toString();
     NetworkModel networkModel = NetworkModel();
     networkModel.requestType = options.method.toUpperCase();
-    networkModel.path = "${options.baseUrl}${options.path}";
+    networkModel.path = options.path;
     networkModel.requestTime = requestTime;
     networkModel.requestHeaders = options.headers;
     networkModel.queryParams = options.queryParameters;
